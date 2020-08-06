@@ -184,18 +184,18 @@ MAX30102.prototype.read_fifo_data = function(digitalRead, interrupt_pin){
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Functions for temperature reading
+//Functions for die temperature reading of the HRS
 
 
 //sends an activate bit to MAX30102 to store a temperature reading
 //note: this function needs to be called first, then call getTemperature to get the temperature reading
-MAX30102.prototype.set_temperature_read = function(){
+MAX30102.prototype.set_HRS_temperature_read = function(){
   heart_sensor.write8(C.REG_TEMP_CONFIG, 0x01);
 };
 
 //gets a temperature reading from the MAX30102
 //note: set_temperature_read needs to be called first before using this function
-MAX30102.prototype.getTemperature = function(saturated_data, unit){
+MAX30102.prototype.getHRSTemperature = function(saturated_data, unit){
   
   var temperature_int;
   var temperature_frac;

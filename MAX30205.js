@@ -29,10 +29,16 @@ function MAX30205(i2c) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//basic function to read 8 bits from MAX30205 from a specified register via i2c
+//basic function to read 8 bits (1 byte) from MAX30205 from a specified register via i2c
 MAX30205.prototype.read8 = function(reg) {
     this.i2c.writeTo(this.ad, reg);
     return this.i2c.readFrom(this.ad,1);
+};
+
+//basic function to read 16 bits (2 bytes) from MAX30205 from a specified register via i2c
+MAX30205.prototype.read16 = function(reg) {
+    this.i2c.writeTo(this.ad, reg);
+    return this.i2c.readFrom(this.ad,2);
 };
 
 //basic function to write 8 bits to a specified register in the MAX30205 via i2c
@@ -46,26 +52,24 @@ MAX30205.prototype.write8 = function(reg, value) {
 //Functions for MAX30205 temperature reading
 
 MAX30205.prototype.initialize = function(){ // 0 0 0 0 0 0 0 0
-  temp_sensor.write8(C.REG_CONFIGURATION, 0x00); // i believe this is the correct configuration, all the choices seem to be optimal with 0
+  temp_sensor.write8(C.REG_CONFIGURATION, 0x00); 
 };
 
-MAX30205.prototype.one_shot_conversion = function(){ //one-shot enabled 1 0 0 0 0 0 0 1
+MAX30205.prototype.one_shot_mode = function(){
   temp_sensor.write8(C.REG_CONFIGURATION, 0x81);
 };
 
-MAX30205.prototype.shutdown = function(){ //shutdown with one-shot disabled 0 0 0 0 0 0 0 1
+MAX30205.prototype.shutdown = function(){
   temp_sensor.write8(C.REG_CONFIGURATION, 0x01);
 };
 
 MAX30205.prototype.getTemperature = function(temperature, unit){
   
   let raw_temperature = 0;
-  raw_temperature = this.read8(C.REG_TEMPERATURE);
-  temperature = ~(raw_temperature);
+  raw_temperature = this.read16(C.REG_TEMPERATURE);
+  temperature = ~(raw_temperature) - 1;
   
-  if(unit == 0){ 
-    temperature = temperature;
-  }else{
+  if(unit == 1){ 
     temperature = 1.80 * (temperature) + 32.00;
   }
 

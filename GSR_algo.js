@@ -4,7 +4,7 @@ E.setFlags({pretokenise:1});
 const I2C_ADDR = 0b1001000;
 
 //sampling time
-const sampling_time = 1/500;
+const sampling_time = (1/500) * 1000;
 
 //GSR Data Array
 var gsr_data[100];
@@ -13,7 +13,7 @@ var gsr_data[100];
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //creates software I2C port for Espruino devices
-function MCP3221(i2c) {
+function GSR(i2c) {
     this.i2c = i2c;
     this.ad = I2C_ADDR;
 }
@@ -22,21 +22,21 @@ function MCP3221(i2c) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //basic function to read 8 bits (1 byte) from MAX30205 from a specified register via i2c
-MCP3221.prototype.read8 = function(reg) {
+GSR.prototype.read8 = function(reg) {
     this.i2c.writeTo(this.ad, reg);
     return this.i2c.readFrom(this.ad,1);
 };
 
 //basic function to write 8 bits to a specified register in the MAX30205 via i2c
-MAX30205.prototype.write8 = function(reg, value) {
+GSR.prototype.write8 = function(reg, value) {
     this.i2c.writeTo(this.ad, reg, value);
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-MCP3221.prototype.read_gsr = function(){
-    
+GSR.prototype.read_gsr = function(){
+    setInterval(this.data_acquisition, sampling_time);
 };
 
 
@@ -47,7 +47,7 @@ MCP3221.prototype.read_gsr = function(){
 
 
 exports.connect = function(i2c) {
-  return new MCP3221(i2c);
+  return new GSR(i2c);
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -52,15 +52,15 @@ MAX30205.prototype.write8 = function(reg, value) {
 //Functions for MAX30205 temperature reading
 
 MAX30205.prototype.initialize = function(){ // 0 0 0 0 0 0 0 0
-  temp_sensor.write8(C.REG_CONFIGURATION, 0x00); 
+  this.write8(C.REG_CONFIGURATION, 0x00); 
 };
 
 MAX30205.prototype.one_shot_mode = function(){
-  temp_sensor.write8(C.REG_CONFIGURATION, 0x81);
+  this.write8(C.REG_CONFIGURATION, 0x81);
 };
 
 MAX30205.prototype.shutdown = function(){
-  temp_sensor.write8(C.REG_CONFIGURATION, 0x01);
+  this.write8(C.REG_CONFIGURATION, 0x01);
 };
 
 MAX30205.prototype.getTemperature = function(temperature, unit){

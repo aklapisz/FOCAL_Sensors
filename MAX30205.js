@@ -70,6 +70,7 @@ MAX30205.prototype.getTemperature = function(temperature, unit){
   console.log(raw_temperature);
   temperature = raw_temperature[0] << 8;
   temperature = raw_temperature[1] | temperature;
+  temperature = temperature * 0.00390625;
   
   if(unit == 1){ 
     temperature = 1.80 * (temperature) + 32.00;

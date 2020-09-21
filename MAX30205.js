@@ -69,12 +69,13 @@ MAX30205.prototype.getTemperature = function(temperature, unit){
   raw_temperature = this.read16(C.REG_TEMPERATURE);
   console.log(raw_temperature);
   temperature = ~(raw_temperature) - 1;
+  //temperature = temperature + (~(raw_temperature[1]) - 1);
   
   if(unit == 1){ 
     temperature = 1.80 * (temperature) + 32.00;
   }
   
-  console.log(raw_temperature);
+  console.log(temperature);
 
 };
 

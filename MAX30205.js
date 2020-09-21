@@ -73,6 +73,8 @@ MAX30205.prototype.getTemperature = function(temperature, unit){
   if(unit == 1){ 
     temperature = 1.80 * (temperature) + 32.00;
   }
+  
+  console.log(raw_temperature);
 
 };
 

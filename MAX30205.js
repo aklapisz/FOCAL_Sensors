@@ -63,9 +63,10 @@ MAX30205.prototype.shutdown = function(){
   this.write8(C.REG_CONFIGURATION, 0x01);
 };
 
-MAX30205.prototype.getTemperature = function(temperature, unit){
+MAX30205.prototype.getTemperature = function(unit){
   
   let raw_temperature = 0;
+  let temprature = 0;
   raw_temperature = this.read16(C.REG_TEMPERATURE);
   temperature = raw_temperature[0] << 8;
   temperature = raw_temperature[1] | temperature;
@@ -74,6 +75,8 @@ MAX30205.prototype.getTemperature = function(temperature, unit){
   if(unit == 1){ 
     temperature = 1.80 * (temperature) + 32.00;
   }
+  
+  return temperature;
 
 };
 
